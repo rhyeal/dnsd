@@ -217,10 +217,7 @@ Response.prototype.end = function(value) {
   var self = this
   
   if (value == false) {
-    self.connection.send('', 0, 0, self.connection.remotePort, self.connection.remoteAddress, function(er) {
-      if(er)
-        self.emit('error', er)
-    })
+    return self.connection.end();
   }
 
   var msg = convenient.final_response(self, value)
