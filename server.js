@@ -215,6 +215,13 @@ Response.prototype.toJSON = Request.prototype.toJSON
 
 Response.prototype.end = function(value) {
   var self = this
+  
+  if (value == '') {
+    self.connection.send('', 0, 0, self.connection.remotePort, self.connection.remoteAddress, function(er) {
+      if(er)
+        self.emit('error', er)
+    })
+  }
 
   var msg = convenient.final_response(self, value)
     , data = msg.toBinary()
